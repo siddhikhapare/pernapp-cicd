@@ -9,7 +9,7 @@ interface User {
 }
 
 export default function Home() {
-  const apiUrl = process.env.API_URL || 'http://localhost:4000'; //for local dev setup
+  const apiUrl = process.env.API_URL || 'https://demo.ksiddhiapphub.org'; //for local dev setup
   //const apiUrl = process.env.API_URL || 'https://add-domain-url'; //for production setup
   const [users, setUsers] = useState<User[]>([]);
   const [newUser, setNewUser] = useState({ name: '', email: '' });

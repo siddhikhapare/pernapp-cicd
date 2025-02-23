@@ -45,7 +45,7 @@ jobs:
       - name: Build the backend app
         run: |
           cd backend
-          npm run build
+          npm run start
 
   # Extract and log the versions of dependencies in package.json
   get-dependencies:
