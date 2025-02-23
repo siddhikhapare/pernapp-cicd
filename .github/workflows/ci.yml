@@ -26,13 +26,20 @@ jobs:
       # Step 3: Install dependencies using npm (only the versions specified in package.json)
       - name: Install dependencies
         run: |
+          cd frontend
           npm ci  # This will install dependencies exactly as listed in package-lock.json
 
-      # Step 4: Build the Next.js application
+      # Step 4: Install dependencies using npm (only the versions specified in package.json)
+      - name: Install dependencies
+        run: |
+          cd backend
+          npm ci  # This will install dependencies exactly as listed in package-lock.json
+
+      # Step 5: Build the Next.js application
       - name: Build the app
         run: npm run build
 
-  # Optional: Extract and log the versions of dependencies in package.json
+  # Extract and log the versions of dependencies in package.json
   get-dependencies:
     runs-on: ubuntu-latest
     steps:
