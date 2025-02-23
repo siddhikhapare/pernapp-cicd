@@ -24,20 +24,28 @@ jobs:
           node-version: "18" # You can change this to the version required for your app
 
       # Step 3: Install dependencies using npm (only the versions specified in package.json)
-      - name: Install dependencies
+      - name: Install frontend dependencies
         run: |
           cd frontend
           npm ci  # This will install dependencies exactly as listed in package-lock.json
 
       # Step 4: Install dependencies using npm (only the versions specified in package.json)
-      - name: Install dependencies
+      - name: Install backend dependencies
         run: |
           cd backend
           npm ci  # This will install dependencies exactly as listed in package-lock.json
 
       # Step 5: Build the Next.js application
-      - name: Build the app
-        run: npm run build
+      - name: Build the frontend app
+        run: |
+          cd frontend
+          npm run build
+      
+      # Step 6: Build the backend application
+      - name: Build the backend app
+        run: |
+          cd backend
+          npm run build
 
   # Extract and log the versions of dependencies in package.json
   get-dependencies:
