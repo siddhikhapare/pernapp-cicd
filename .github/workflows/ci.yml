@@ -34,6 +34,16 @@ jobs:
         run: |
           cd backend
           npm ci  # This will install dependencies exactly as listed in package-lock.json
+      
+      - name: Create .env file
+        run: |
+          touch .env.prod
+          echo "API_URL=${{secrets.API_URL}}" >> .env.prod
+          echo "POSTGRES_USER=${{ secrets.POSTGRES_USER }}" >> .env.prod
+          echo "POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}" >> .env.prod
+          echo "POSTGRES_DB=${{ secrets.POSTGRES_DB }}" >> .env.prod
+          echo "POSTGRES_HOST=${{ secrets.POSTGRES_HOST }}" >> .env.prod
+          echo "DB_PORT=${{ secrets.DB_PORT }}" >> .env.prod
 
       # Step 5: Build the Next.js application
       - name: Build the frontend app
@@ -50,6 +60,7 @@ jobs:
   # Extract and log the versions of dependencies in package.json
   get-dependencies:
     runs-on: ubuntu-latest
+    needs: build
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -62,6 +73,7 @@ jobs:
   #docker container image build
   docker-build:
     runs-on: ubuntu-latest
+    needs: build
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -75,15 +87,15 @@ jobs:
         with:
           version: latest
 
-      - name: Create .env file
-        run: |
-          touch .env.prod
-          echo "API_URL=${{secrets.API_URL}}" >> .env.prod
-          echo "POSTGRES_USER=${{ secrets.POSTGRES_USER }}" >> .env.prod
-          echo "POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}" >> .env.prod
-          echo "POSTGRES_DB=${{ secrets.POSTGRES_DB }}" >> .env.prod
-          echo "POSTGRES_HOST=${{ secrets.POSTGRES_HOST }}" >> .env.prod
-          echo "DB_PORT=${{ secrets.DB_PORT }}" >> .env.prod
+      # - name: Create .env file
+      #   run: |
+      #     touch .env.prod
+      #     echo "API_URL=${{secrets.API_URL}}" >> .env.prod
+      #     echo "POSTGRES_USER=${{ secrets.POSTGRES_USER }}" >> .env.prod
+      #     echo "POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}" >> .env.prod
+      #     echo "POSTGRES_DB=${{ secrets.POSTGRES_DB }}" >> .env.prod
+      #     echo "POSTGRES_HOST=${{ secrets.POSTGRES_HOST }}" >> .env.prod
+      #     echo "DB_PORT=${{ secrets.DB_PORT }}" >> .env.prod
     
       # Build the frontend and backend images using docker-compose
       - name: Build Docker Containers with Compose
