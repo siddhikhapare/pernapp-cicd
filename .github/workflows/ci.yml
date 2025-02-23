@@ -30,10 +30,11 @@ jobs:
           npm ci  # This will install dependencies exactly as listed in package-lock.json
 
       # Step 4: Install dependencies using npm (only the versions specified in package.json)
+      # This will install dependencies exactly as listed in package-lock.json
       - name: Install backend dependencies
         run: |
           cd backend
-          npm ci  # This will install dependencies exactly as listed in package-lock.json
+          npm ci  
       
       - name: Create .env file
         run: |
