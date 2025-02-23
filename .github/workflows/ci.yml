@@ -95,7 +95,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: .
-          file: compose.yml
+          file: compose.yaml
           push: true
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/frontend:${{ github.run_id }}
