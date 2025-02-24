@@ -39,10 +39,10 @@ jobs:
 
       # Step 4: Install dependencies using npm (only the versions specified in package.json)
       # This will install dependencies exactly as listed in package-lock.json
-      - name: Install backend dependencies
-        run: |
-          cd backend
-          npm ci  
+      # - name: Install backend dependencies
+      #   run: |
+      #     cd backend
+      #     npm ci  
       
       - name: Create .env file
         run: |
@@ -61,10 +61,10 @@ jobs:
           npm run build
       
       # Step 6: Build the backend application
-      - name: Build the backend app
-        run: |
-          cd backend
-          npm run start
+      # - name: Build the backend app
+      #   run: |
+      #     cd backend
+      #     npm run start
 
   # Extract and log the versions of dependencies in package.json
   get-dependencies:
@@ -135,7 +135,7 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKER_USERNAME }}/frontend:${{ github.run_id }}
-            ${{ secrets.DOCKER_USERNAME }}/backend:${{ github.run_id }}
+            # ${{ secrets.DOCKER_USERNAME }}/backend:${{ github.run_id }}
 
   Image-Scanning:
     runs-on: ubuntu-latest
@@ -170,14 +170,15 @@ jobs:
 
       - name: Update Backend Image Tag in Kubernetes Manifest
         run: |
-          sed -i "s|image: .*backend.*|image: ${{ secrets.DOCKER_USERNAME }}/backend:${{ github.run_id }}|" k8s/backend/deploy.yaml
+          # sed -i "s|image: .*backend.*|image: ${{ secrets.DOCKER_USERNAME }}/backend:${{ github.run_id }}|" k8s/backend/deploy.yaml
           sed -i "s|image: .*frontend.*|image: ${{ secrets.DOCKER_USERNAME }}/frontend:${{ github.run_id }}|" k8s/frontend/deploy.yaml
 
       - name: Commit and Push Changes to Kubernetes Manifests
         run: |
           git config --global user.email "siddhikhapare77@gmail.com"
           git config --global user.name "siddhikhapare"
-          git add k8s/frontend/deploy.yaml k8s/backend/deploy.yaml
+          git add k8s/frontend/deploy.yaml 
+          # git add k8s/frontend/deploy.yaml k8s/backend/deploy.yaml
           git commit -m "[CI] Update Docker image tags for backend and frontend"
           git push origin HEAD:main -f
 
