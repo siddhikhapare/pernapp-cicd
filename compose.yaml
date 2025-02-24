@@ -13,8 +13,8 @@ services:
     environment:
       - API_URL=${API_URL} #here we are provididng backend docker svc
     restart: always
-    depends_on:
-      - backend
+    # depends_on:
+    #   - backend
     
   # backend:
   #   container_name: backend
